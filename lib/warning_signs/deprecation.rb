@@ -22,8 +22,7 @@ module WarningSigns
 
     def backtrace_lines
       lines = handler&.backtrace_lines || 0
-      return "" if lines.zero?
-      (backtrace[1..lines] || []).join("\n")
+      backtrace[1..lines]
     end
 
     def invoke
@@ -32,8 +31,7 @@ module WarningSigns
         when "raise"
           raise UnhandledDeprecationError, message
         when "log"
-          Rails.logger.warn(message)
-          backtrace_lines.split("\n").each { Rails.logger.warn(_1) }
+          Rails.logger.warn({ message: message, backtrace: backtrace_lines.map(&:to_s) })
         when "stderr"
           $stderr.puts(message) # standard:disable Style/StderrPuts
           $stderr.puts(backtrace_lines) # standard:disable Style/StderrPuts

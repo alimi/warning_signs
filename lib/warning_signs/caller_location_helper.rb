@@ -9,9 +9,7 @@ module WarningSigns
     def ignore_line(line)
       line.include?("<internal:") ||
         line.include?("warning_signs/lib") ||
-        line.include?("warning_signs/spec") ||
-        line.include?("rubygems") ||
-        line.include?("/gems")
+        line.include?("warning_signs/spec")
     end
   end
 end
